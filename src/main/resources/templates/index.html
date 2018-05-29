@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Spring Boot - AJAX POST GET Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/postrequest.js"></script>
+    <script src="/js/getrequest.js"></script>
+
+    <link rel="stylesheet" href="js/jquery-ui-1.8.16/themes/base/jquery-ui.css" type="text/css" />
+    <script src="js/jquery-ui-1.8.16/jquery-1.6.2.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.16/ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.16/ui/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.16/ui/jquery.ui.position.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.16/ui/jquery.ui.widget.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <h3 style="color:blue">POST-GET AJAX NESTED OBJECT</h3>
+
+    <div class="row col-md-6">
+        <form id="transactionForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter name"/>
+            </div>
+            <div class="form-group">
+                <label for="numberOfShares">Number Of Shares:</label>
+                <input type="number" min="0"  class="form-control" id="numberOfShares" placeholder="Enter number of shares"/>
+            </div>
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" min="0" class="form-control" id="price" placeholder="Enter price (XX.XX)"/>
+            </div>
+            <div class="form-group">
+                <label for="buyDate">Buy Date:</label>
+                <input type="text" class="form-control" id="buyDate" placeholder="Enter buy date (DD.MM.YYYY)"/>
+            </div>
+            <div class="form-group">
+                <label for="sellDate">Sell Date:</label>
+                <input type="text" class="form-control" id="sellDate" placeholder="Enter sell date (DD.MM.YYYY)"/>
+            </div>
+            <button style="margin-bottom:10px" type="submit" class="btn btn-default">Add Transaction</button>
+        </form>
+
+        <!-- Table of Adding transaction -->
+        <table id="transactionTable" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Number Of Shares</th>
+                <th>Price</th>
+                <th>Buy Date</th>
+                <th>Sell Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <!-- DIV Submit transaction  -->
+        <!-- SUBMIT Transaction Button to Server -->
+        <button id="postTransactionsBtn" style="margin-bottom:10px" type="submit" class="btn btn-default">Post Transactions</button>
+
+        <!-- Message result from server -->
+        <div id="postResultDiv" style="margin:10px 0px 10px 0px;">
+        </div>
+
+
+        <!-- Get All Transactions from back-end -->
+        <button id="getAllTransactionsBtnId" type="button" class="btn btn-primary" style="margin:10px 0px 10px 0px;">Get All Transactions</button>
+        <div id="resultGetAllTransactionDiv">
+            <ul class="list-group">
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
