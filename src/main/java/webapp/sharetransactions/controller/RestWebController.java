@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/api/transaction")
 public class RestWebController {
 
-    List<Transaction> cust = new ArrayList<Transaction>();
+    private List<Transaction> cust = new ArrayList<Transaction>();
 
     @GetMapping(value = "/all")
     public List<Transaction> getResource(){

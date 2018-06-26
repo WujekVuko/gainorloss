@@ -5,10 +5,15 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Transaction {
     @NotBlank
     private String name;
+    private String webShareName;
     @NotNull
     private float price;
     @NotNull
@@ -24,8 +29,9 @@ public class Transaction {
     public Transaction(){}
 
 
-    public Transaction (String name, float price, int numberOfShares, String buyDate, String sellDate){
+    public Transaction (String name,int numberOfShares, float price, String buyDate, String sellDate){
         this.name = name;
+        this.webShareName = getShareName(name);
         this.price = price;
         this.numberOfShares = numberOfShares;
         this.buyDate = buyDate;
@@ -38,6 +44,14 @@ public class Transaction {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getWebShareName() {
+        return webShareName;
+    }
+
+    public void setWebShareName(String webShareName) {
+        this.webShareName = webShareName;
     }
 
     public float getPrice() {
@@ -81,5 +95,23 @@ public class Transaction {
                 ", buyDate='" + buyDate + '\'' +
                 ", sellDate='" + sellDate + '\'' +
                 '}';
+    }
+
+    private String getShareName(String name) {
+        String fileName = "src/main/resources/static/txt/names.txt";
+        Map<String,String> linkShareNames = new HashMap<>();
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            String row;
+            while ((row = br.readLine()) != null){
+                String holder[] = row.split(";");
+                linkShareNames.put(holder[0],holder[1]);
+            }
+        }
+        catch (Exception e){
+            System.err.println("No file to import employees list");
+            e.printStackTrace();
+        }
+        return linkShareNames.get(name);
     }
 }

@@ -15,17 +15,17 @@ $( document ).ready(function() {
 					$('#resultGetAllTransactionDiv ul').empty();
 					var custList = "";
 					$.each(result, function(i, transaction){
-						var transaction = "{name: " + transaction.name +
+						 transaction = "{name: " + transaction.name +
 						", number: " + transaction.numberOfShares +
 						", price: " + transaction.price +
 						", buy date: " + transaction.buyDate +
 						", sell date: " + transaction.sellDate +"}";
 						
-						$('#resultGetAllTransactionDiv .list-group').append("<li>" + transaction + "</li>");
+						$('#resultGetAllTransactionsDiv .list-group').append("<li>" + transaction + "</li>");
 			        });
 					
 					// just re-css for result-div
-					$('#resultGetAllTransactionDiv').css({'background-color':'#D16953', 'color':'white', 'padding':'20px 20px 5px 30px'});
+					$('#resultGetAllTransactionsDiv').css({'background-color':'#D16953', 'color':'white', 'padding':'20px 20px 5px 30px'});
 					
 					// just hide POST button
 					if($('#transactionTable').is(":hidden")){
@@ -38,4 +38,4 @@ $( document ).ready(function() {
 			}
 		});
 	}
-})
+});
