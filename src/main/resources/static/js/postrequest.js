@@ -92,7 +92,7 @@ $(document).ready(function () {
                     "</p>");
             },
             error: function (e) {
-                alert("Error!");
+                alert("Error here!");
                 console.log("ERROR: ", e);
             }
         });
