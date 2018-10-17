@@ -7,8 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class WebController {
     @GetMapping(value = "/")
     public String homepage() {
-        return "index";
+        return "transactionList";
     }
+
+    @GetMapping(value = "/transactionlist/")
+    public String listPage(){return "transactionList";}
+
+    @GetMapping(value = "/transactionEdit/")
+    public String editPage(){return "transactionEdit";}
 
 
 }

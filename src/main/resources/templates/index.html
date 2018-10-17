@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
-
-
-<html>
+<html   xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Spring Boot - AJAX POST GET Example</title>
     <meta charset="utf-8" />
@@ -14,7 +13,16 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/js/postrequest.js"></script>
     <script src="/js/getrequest.js"></script>
-    <script src="js/autocomplete.js"></script>
+    <script src="/js/autocomplete.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="js/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js"></script>
 
 </head>
 
@@ -81,6 +89,62 @@
             </ul>
         </div>
     </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>linkVariable</th>
+            <th>price</th>
+            <th>numberOfShares</th>
+            <th>holdDates</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <!--/*@thymesVar id="shareDataList" type="webapp.sharetransactions.controller.RestWebController"*/-->
+        <tr th:each="transactionDTO : ${shareDataList}">
+
+        <!--/*@thymesVar id="transactionDto" type="webapp.sharetransactions.domain.TransactionDTO"*/-->
+        <!--/*@thymesVar id="name" type="webapp.sharetransactions.domain.TransactionDTO"*/-->
+        <td th:text="${transactionDto.name}">1</td>
+        </tr>
+
+        </tbody>
+    </table>
+
 </div>
+<canvas id="myChart" width="400" height="400"></canvas>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var dates = /*[[${chartDataList.![dates]}]]*/ null;
+    var valuesForDays = /*[[${chartDataList.![valuesForDays]}]]*/ null;
+
+
+
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            datasets: [{
+                label: 'Values',
+                data: null
+            }],
+            labels: null
+        },
+
+
+
+        // Configuration options go here
+        options: {
+
+        }
+    });
+    /*]]>*/
+</script>
+
+
 </body>
 </html>
