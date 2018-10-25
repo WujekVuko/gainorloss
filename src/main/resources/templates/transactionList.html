@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Notes</title>
+
+    <link rel="stylesheet" type="text/css" media="all" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}" />
+
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}" src="/js/bootstrap.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Notes</h1>
+
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Number of Shares</th>
+            <th>Buy Date</th>
+            <th>Sell Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="transactionDTO : ${transactionList}">
+            <td th:text="${transactionDTO.name}"></td>
+            <td th:text="${transactionDTO.price}"></td>
+            <td th:text="${transactionDTO.numberOfShares}"></td>
+            <td th:text="${transactionDTO.buyDate}"></td>
+            <td th:text="${transactionDTO.sellDate}"></td>
+            <td>
+                <a href="/transactionEdit/" th:href="@{/transactionEdit/__${transactionDTO.id}__}">Edit</a>
+                <a href="/transactionDelete/" th:href="@{/transactionDelete/__${transactionDTO.id}__}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+    <p>
+        <a href="/transactionEdit" th:href="@{/transactionEdit}">Add</a>
+    </p>
+    <table class="table">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="chartData : ${chartDataList}">
+        <td th:text="${chartData.name}"></td>
+        <td th:text="${chartData.dates}"></td>
+        <td th:text="${chartData.valuesForDays}"></td>
+    </tr>
+
+
+    </tbody>
+</table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Number of Shares</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tableData : ${tableDataList}">
+            <td th:text="${tableData.date}"></td>
+            <td th:text="${tableData.name}"></td>
+            <td th:text="${tableData.price}"></td>
+            <td th:text="${tableData.numberOfShares}"></td>
+            <td th:text="${tableData.totalValue}"></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var dates = /*[[${chartDataList.![dates]}]]*/ null;
+        var valuesForDays = /*[[${chartDataList.![valuesForDays]}]]*/ null;
+
+
+
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                datasets: [{
+                    label: 'Values',
+                    data:  null
+                }],
+                labels: null
+            },
+
+
+
+            // Configuration options go here
+            options: {
+
+            }
+        });
+        /*]]>*/
+    </script>
+</div>
+
+
+
+</body>
+</html>
