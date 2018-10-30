@@ -10,7 +10,6 @@ import java.util.List;
 
 public class TableDataServiceImpl {
 
-
     public TableDataServiceImpl() {
     }
     public List<TableData> getTableDataList(List<TransactionDTO> transactionDTOList, HistoricValueRepository repository){
@@ -23,4 +22,5 @@ public class TableDataServiceImpl {
         }
         return tableDataList;
     }
+
 }

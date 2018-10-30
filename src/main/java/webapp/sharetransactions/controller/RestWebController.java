@@ -35,13 +35,13 @@ public class RestWebController {
         this.transactionsDTOService = transactionsDTOService;
     }
 
-    @RequestMapping(value = "/transactionList")
+    @RequestMapping(value ={"/"})
     public String transactionsDTOList(Model model) {
         TableDataServiceImpl tableDataService = new TableDataServiceImpl();
         model.addAttribute("transactionList", transactionsDTOService.findAll());
         model.addAttribute("chartDataList", chartDataService.findAll(transactionsDTOService.findAll(), repository));
         model.addAttribute("tableDataList", tableDataService.getTableDataList(transactionsDTOService.findAll(), repository));
-        return "transactionList";
+        return "index";
     }
 
 
@@ -76,7 +76,7 @@ public class RestWebController {
         }
         model.addAttribute("chartDataList", list.stream().collect(Collectors.joining(", ")));
 
-        return "transactionList";
+        return "/";
     }
 
     @RequestMapping(value = "/transactionDelete/{id}", method = RequestMethod.GET)
@@ -87,6 +87,6 @@ public class RestWebController {
         model.addAttribute("transactionList", transactionsDTOService.findAll());
         model.addAttribute("chartDataList", chartDataService.findAll(transactionsDTOService.findAll(), repository));
 
-        return "transactionList";
+        return "/";
     }
 }

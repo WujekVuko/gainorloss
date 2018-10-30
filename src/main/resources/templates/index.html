@@ -1,149 +1,133 @@
-<!DOCTYPE HTML>
-<html   xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Boot - AJAX POST GET Example</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="/js/postrequest.js"></script>
-    <script src="/js/getrequest.js"></script>
-    <script src="/js/autocomplete.js"></script>
+    <meta charset="UTF-8" />
+    <title>Notes</title>
+
+    <link rel="stylesheet" type="text/css" media="all" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}" />
+
+    <script type="text/javascript" th:src="@{/js/autocomplete.js}" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}" src="/js/bootstrap.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" media="all" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
-
-    <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="js/jquery.min.js"></script>
-    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js"></script>
-
 </head>
-
 <body>
 
 <div class="container">
 
-    <h3 style="color:blue">Add transaction</h3>
-
-    <div class="row col-md-6">
-        <form id="transactionForm">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter name" value="Platige"/>
-            </div>
-            <div class="form-group">
-                <label for="numberOfShares">Number Of Shares:</label>
-                <input type="number" min="0"  class="form-control" id="numberOfShares" value="10"/>
-            </div>
-            <div class="form-group">
-                <label for="price">Price:</label>
-                <input type="number" min="0" class="form-control" id="price" placeholder="Enter price (XX.XX)" value="10"/>
-            </div>
-            <div class="form-group">
-                <label for="buyDate">Buy Date:</label>
-                <input type="text" class="form-control" id="buyDate" placeholder="Enter buy date (DD.MM.YYYY)" value="14.04.2018"/>
-            </div>
-            <div class="form-group">
-                <label for="sellDate">Sell Date:</label>
-                <input type="text" class="form-control" id="sellDate" placeholder="Enter sell date (DD.MM.YYYY)" value="15.05.2018"/>
-            </div>
-            <button style="margin-bottom:10px" type="submit" class="btn btn-default">Add Transaction</button>
-        </form>
-
-        <!-- Table of Adding transaction -->
-        <table id="transactionTable" class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th>No</th>
-                <th>Name</th>
-                <th>Number Of Shares</th>
-                <th>Price</th>
-                <th>Buy Date</th>
-                <th>Sell Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-
-        <!-- DIV Submit transaction  -->
-        <!-- SUBMIT Transaction Button to Server -->
-        <button id="postTransactionsBtn" style="margin-bottom:10px" type="submit" class="btn btn-default">Post Transactions</button>
-
-        <!-- Message result from server -->
-        <div id="postResultDiv" style="margin:10px 0px 10px 0px;">
-        </div>
+    <h1>Notes</h1>
 
 
-        <!-- Get All Transactions from back-end -->
-        <button id="getAllTransactionsBtnId" type="button" class="btn btn-primary" style="margin:10px 0px 10px 0px;">Get All Transactions</button>
-        <div id="resultGetAllTransactionsDiv">
-            <ul class="list-group">
-            </ul>
-        </div>
-    </div>
+
     <table class="table">
         <thead>
         <tr>
-            <th>name</th>
-            <th>linkVariable</th>
-            <th>price</th>
-            <th>numberOfShares</th>
-            <th>holdDates</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Number of Shares</th>
+            <th>Buy Date</th>
+            <th>Sell Date</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-
-        <!--/*@thymesVar id="shareDataList" type="webapp.sharetransactions.controller.RestWebController"*/-->
-        <tr th:each="transactionDTO : ${shareDataList}">
-
-        <!--/*@thymesVar id="transactionDto" type="webapp.sharetransactions.domain.TransactionDTO"*/-->
-        <!--/*@thymesVar id="name" type="webapp.sharetransactions.domain.TransactionDTO"*/-->
-        <td th:text="${transactionDto.name}">1</td>
+        <tr th:each="transactionDTO : ${transactionList}">
+            <td th:text="${transactionDTO.name}"></td>
+            <td th:text="${transactionDTO.price}"></td>
+            <td th:text="${transactionDTO.numberOfShares}"></td>
+            <td th:text="${transactionDTO.buyDate}"></td>
+            <td th:text="${transactionDTO.sellDate}"></td>
+            <td>
+                <a href="/transactionEdit/" th:href="@{/transactionEdit/__${transactionDTO.id}__}">Edit</a>
+                <a href="/transactionDelete/" th:href="@{/transactionDelete/__${transactionDTO.id}__}">Delete</a>
+            </td>
         </tr>
-
         </tbody>
     </table>
 
+
+
+    <p>
+        <a href="/transactionEdit" th:href="@{/transactionEdit}">Add</a>
+    </p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="chartData : ${chartDataList}">
+            <td th:text="${chartData}"></td>
+            <td th:text="${chartData}"></td>
+            <td th:text="${chartData}"></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Number of Shares</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tableData : ${tableDataList}">
+            <td th:text="${tableData.date}"></td>
+            <td th:text="${tableData.name}"></td>
+            <td th:text="${tableData.price}"></td>
+            <td th:text="${tableData.numberOfShares}"></td>
+            <td th:text="${tableData.totalValue}"></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+    <script th:inline="javascript">
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var dates;
+        var valuesForDays;
+
+
+
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                datasets: [{
+                    label: 'Values',
+                    data:  dates
+                }],
+                labels: valuesForDays
+            },
+
+
+
+            // Configuration options go here
+            options: {
+
+            }
+        });
+
+    </script>
 </div>
-<canvas id="myChart" width="400" height="400"></canvas>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var dates = /*[[${chartDataList.![dates]}]]*/ null;
-    var valuesForDays = /*[[${chartDataList.![valuesForDays]}]]*/ null;
 
-
-
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'line',
-
-        // The data for our dataset
-        data: {
-            datasets: [{
-                label: 'Values',
-                data: null
-            }],
-            labels: null
-        },
-
-
-
-        // Configuration options go here
-        options: {
-
-        }
-    });
-    /*]]>*/
-</script>
 
 
 </body>
