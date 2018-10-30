@@ -39,7 +39,7 @@ public class RestWebController {
     public String transactionsDTOList(Model model) {
         TableDataServiceImpl tableDataService = new TableDataServiceImpl();
         model.addAttribute("transactionList", transactionsDTOService.findAll());
-        model.addAttribute("chartDataList", chartDataService.findAll(transactionsDTOService.findAll(), repository));
+        model.addAttribute("chartDataList", chartDataService.getChartDataList());
         model.addAttribute("tableDataList", tableDataService.getTableDataList(transactionsDTOService.findAll(), repository));
         return "index";
     }
@@ -64,19 +64,21 @@ public class RestWebController {
         List<HistoricValue> sharesList;
         sharesList = data.jSoupGetData(t);
         repository.save(sharesList);
+        chartDataService.editChartDataList(transactionsDTOService.findAll(),repository);
 
         TableDataServiceImpl tableDataService = new TableDataServiceImpl();
 
         model.addAttribute("transactionList", transactionsDTOService.findAll());
         List<String> list = new ArrayList<>();
 
-        List<ChartData> all = chartDataService.findAll(transactionsDTOService.findAll(), repository);
+        List<ChartData> all = chartDataService.getChartDataList();
         for (ChartData chartData : all) {
             Collections.addAll(list, chartData.getDates());
         }
         model.addAttribute("chartDataList", list.stream().collect(Collectors.joining(", ")));
+        model.addAttribute("tableDataList", tableDataService.getTableDataList(transactionsDTOService.findAll(), repository));
 
-        return "/";
+        return "index";
     }
 
     @RequestMapping(value = "/transactionDelete/{id}", method = RequestMethod.GET)
@@ -85,8 +87,8 @@ public class RestWebController {
 
         transactionsDTOService.deleteTransaction(id);
         model.addAttribute("transactionList", transactionsDTOService.findAll());
-        model.addAttribute("chartDataList", chartDataService.findAll(transactionsDTOService.findAll(), repository));
+        model.addAttribute("chartDataList", chartDataService.getChartDataList());
 
-        return "/";
+        return "index";
     }
 }

@@ -12,17 +12,7 @@ import java.util.List;
 public class ChartDataServiceImpl {
     private List<ChartData> chartDataList = new ArrayList<>();
 
-
-    public String getMaciek(){
-        return "maciek";
-    }
-    public ChartDataServiceImpl() {
-    }
-
-    private List<LocalDate> resultDates = new ArrayList<>();
-    private List<Float> resultValues = new ArrayList<>();
-
-    public List<ChartData> findAll(List<TransactionDTO> transactionDTOList, HistoricValueRepository repository) {
+    public void editChartDataList(List<TransactionDTO> transactionDTOList, HistoricValueRepository repository){
         for (TransactionDTO transaction : transactionDTOList) {
             for (HistoricValue hv : repository.findByName(transaction.getLinkVariable())) {
                 resultDates.add(hv.getDate());
@@ -40,6 +30,16 @@ public class ChartDataServiceImpl {
             ChartData chartData = new ChartData(transaction.getName(), transaction.getLinkVariable(),transaction.getNumberOfShares(), resultValuesArray, resultDatesArray);
             chartDataList.add(chartData);
         }
+    }
+
+    public ChartDataServiceImpl() {
+    }
+
+    private List<LocalDate> resultDates = new ArrayList<>();
+    private List<Float> resultValues = new ArrayList<>();
+
+    public List<ChartData> getChartDataList() {
+
         return chartDataList;
     }
 }
