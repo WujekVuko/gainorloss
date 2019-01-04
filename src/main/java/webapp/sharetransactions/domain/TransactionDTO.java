@@ -2,8 +2,13 @@ package webapp.sharetransactions.domain;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 
 @Entity
@@ -39,8 +44,9 @@ public class TransactionDTO {
         this.linkVariable = linkVariable;
         this.price = price;
         this.numberOfShares = numberOfShares;
-        this.buyDate = buyDate;
-        this.sellDate = sellDate;
+
+        this.buyDate = buyDate;// LocalDate.parse(buyDate,formatter);
+        this.sellDate = sellDate; //LocalDate.parse(sellDate,formatter);
     }
 
 

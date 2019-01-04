@@ -13,13 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import webapp.sharetransactions.Service.ChartDataServiceImpl;
 import webapp.sharetransactions.Service.TableDataServiceImpl;
 import webapp.sharetransactions.Service.TransactionsDTOService;
-import webapp.sharetransactions.domain.ChartData;
+import webapp.sharetransactions.domain.ChartPeriod;
 import webapp.sharetransactions.domain.TransactionDTO;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class RestWebController {
@@ -29,6 +26,10 @@ public class RestWebController {
 
     private ChartDataServiceImpl chartDataService = new ChartDataServiceImpl();
 
+    private TableDataServiceImpl tableDataService = new TableDataServiceImpl();
+
+
+
     @Autowired
     public RestWebController(HistoricValueRepository repository, TransactionsDTOService transactionsDTOService) {
         this.repository = repository;
@@ -37,10 +38,15 @@ public class RestWebController {
 
     @RequestMapping(value ={"/"})
     public String transactionsDTOList(Model model) {
-        TableDataServiceImpl tableDataService = new TableDataServiceImpl();
+        ChartPeriod chartPeriod = new ChartPeriod();
+        String json ="['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']";
+        tableDataService.setTableDataList(transactionsDTOService.findAll(),repository);
         model.addAttribute("transactionList", transactionsDTOService.findAll());
-        model.addAttribute("chartDataList", chartDataService.getChartDataList());
-        model.addAttribute("tableDataList", tableDataService.getTableDataList(transactionsDTOService.findAll(), repository));
+        model.addAttribute("chartDataList", chartDataService.generateChartDataList(transactionsDTOService.findAll(),repository));
+        model.addAttribute("tableDataList", tableDataService.getTableDataList());
+        model.addAttribute("chartPeriod", chartDataService.generateChartPeriod(transactionsDTOService.findAll(),repository));
+        model.addAttribute("json", json);
+
         return "index";
     }
 
@@ -64,30 +70,28 @@ public class RestWebController {
         List<HistoricValue> sharesList;
         sharesList = data.jSoupGetData(t);
         repository.save(sharesList);
-        chartDataService.editChartDataList(transactionsDTOService.findAll(),repository);
-
         TableDataServiceImpl tableDataService = new TableDataServiceImpl();
+        tableDataService.setTableDataList(transactionsDTOService.findAll(),repository);
 
-        model.addAttribute("transactionList", transactionsDTOService.findAll());
-        List<String> list = new ArrayList<>();
+
+/*        List<String> list = new ArrayList<>();
 
         List<ChartData> all = chartDataService.getChartDataList();
         for (ChartData chartData : all) {
             Collections.addAll(list, chartData.getDates());
         }
         model.addAttribute("chartDataList", list.stream().collect(Collectors.joining(", ")));
-        model.addAttribute("tableDataList", tableDataService.getTableDataList(transactionsDTOService.findAll(), repository));
-
+ */       model.addAttribute("tableDataList", tableDataService.getTableDataList());
+        model.addAttribute("transactionList", transactionsDTOService.findAll());
         return "index";
     }
 
     @RequestMapping(value = "/transactionDelete/{id}", method = RequestMethod.GET)
-    public String TransactionDelete(Model model, @PathVariable(required = true, name = "id") Long id) {
-
-
+    public String TransactionDelete(Model model, @PathVariable(name = "id") Long id) {
         transactionsDTOService.deleteTransaction(id);
         model.addAttribute("transactionList", transactionsDTOService.findAll());
-        model.addAttribute("chartDataList", chartDataService.getChartDataList());
+        model.addAttribute("chartDataList", chartDataService.generateChartDataList(transactionsDTOService.findAll(),repository));
+        model.addAttribute("tableDataList", tableDataService.getTableDataList());
 
         return "index";
     }

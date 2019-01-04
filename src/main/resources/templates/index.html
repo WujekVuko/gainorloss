@@ -82,9 +82,10 @@
             <th>Price</th>
             <th>Number of Shares</th>
             <th>Value</th>
+
         </tr>
         </thead>
-        <tbody>
+        <thead>
         <tr th:each="tableData : ${tableDataList}">
             <td th:text="${tableData.date}"></td>
             <td th:text="${tableData.name}"></td>
@@ -93,38 +94,63 @@
             <td th:text="${tableData.totalValue}"></td>
         </tr>
 
+        </thead>
+
+    </table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Data</th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+        <tr th:text="${chartPeriod}"> </tr>
+
+        <tr th:text="${chartDataList}"> </tr>
+
 
         </tbody>
+
+
     </table>
+    <canvas id="myCharti" width="400" height="400"></canvas>
     <script th:inline="javascript">
-
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var dates;
-        var valuesForDays;
-
-
-
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'line',
-
-            // The data for our dataset
-            data: {
-                datasets: [{
-                    label: 'Values',
-                    data:  dates
-                }],
-                labels: valuesForDays
+        /*<![CDATA[*/
+        var ctx = document.getElementById("myCharti");
+        var dates = /*[[${chartPeriod}]]*/ 'Dates';
+        var lines = /*[[${chartDataList}]]*/ 'Data';
+        var my2Chart = new Chart(ctx,{
+            type:'line',
+            data:{
+                labels:dates,
+                datasets:lines
             },
+            options:{}});
+        /*]]>*/
+    </script>
 
 
 
-            // Configuration options go here
-            options: {
+    <canvas id="my2Chart" width="400" height="400"></canvas>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var ctx = document.getElementById("my2Chart");
+        var dates = /*[[${chartPeriod}]]*/ 'Dates';
+        var my2Chart = new Chart(ctx,{
+            type:'line',
+                data:{
+                    labels:dates,
+                        datasets:[{
+                        label:"My First Dataset",
 
-            }
-        });
-
+                            data:[null,null,80,81,56,55,40,65,59,80,81,56,55,40,65,59,80,81,56],
+                            fill:false,
+                            borderColor:'#6eff87',
+                            lineTension:0.1}]},
+                options:{}});
+        /*]]>*/
     </script>
 </div>
 

@@ -12,14 +12,20 @@ public class TableDataServiceImpl {
 
     public TableDataServiceImpl() {
     }
-    public List<TableData> getTableDataList(List<TransactionDTO> transactionDTOList, HistoricValueRepository repository){
-        List<TableData> tableDataList = new ArrayList<>();
+
+    private List<TableData> tableDataList = new ArrayList<>();
+
+    public void setTableDataList(List<TransactionDTO> transactionDTOList, HistoricValueRepository repository){
+        tableDataList.clear();
         for (TransactionDTO transaction : transactionDTOList) {
             for (HistoricValue hv : repository.findByName(transaction.getLinkVariable())) {
                 TableData tableData = new TableData(hv.getName(),transaction.getNumberOfShares(),hv.getPrice(),transaction.getNumberOfShares()*hv.getPrice(),hv.getDate());
                 tableDataList.add(tableData);
             }
         }
+
+    }
+    public List<TableData>  getTableDataList(){
         return tableDataList;
     }
 

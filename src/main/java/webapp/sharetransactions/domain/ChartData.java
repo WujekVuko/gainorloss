@@ -1,65 +1,77 @@
 package webapp.sharetransactions.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import java.util.Arrays;
+import java.util.Random;
 
-@Entity
+
 public class ChartData {
-    @javax.persistence.Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
-    private String name;
-    private String variableName;
-    private int numberOfShares;
-    private float[] valuesForDays;
-    private String[] dates;
+    private String label;
+    private float[] data;
+    private boolean fill;
+    private String borderColor;
+    private float lineTension;
 
-    public ChartData(String name, String variableName,int numberOfShares, float[] valuesForDays,  String[] dates) {
-        this.name = name;
-        this.variableName = variableName;
-        this.valuesForDays = valuesForDays;
-        this.numberOfShares = numberOfShares;
-        this.dates = dates;
+    public ChartData(String label, float[] data) {
+        this.label = label;
+        this.data = data;
+        this.fill = false;
+        this.lineTension = (float) 0.1;
+        this.borderColor = generateRandomColor();
     }
 
-    public String getName() {
-        return name;
+    public String getLabel() {
+        return label;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public String getVariableName() {
-        return variableName;
+    public float[] getData() {
+        return data;
     }
 
-    public void setVariableName(String variableName) {
-        this.variableName = variableName;
+    public void setData(float[] data) {
+        this.data = data;
     }
 
-    public float[] getValuesForDays() {
-        return valuesForDays;
+    public boolean isFill() {
+        return fill;
     }
 
-    public void setValuesForDays(float[] valuesForDays) {
-        this.valuesForDays = valuesForDays;
+    public void setFill(boolean fill) {
+        this.fill = fill;
     }
 
-    public int getNumberOfShares() {
-        return numberOfShares;
+    public String getBorderColor() {
+        return borderColor;
     }
 
-    public void setNumberOfShares(int numberOfShares) {
-        this.numberOfShares = numberOfShares;
+    public void setBorderColor(String borderColor) {
+        this.borderColor = borderColor;
     }
 
-    public String[] getDates() {
-        return dates;
+    public float getLineTension() {
+        return lineTension;
     }
 
-    public void setDates(String[] dates) {
-        this.dates = dates;
+    public void setLineTension(float lineTension) {
+        this.lineTension = lineTension;
+    }
+
+    private String generateRandomColor(){
+        Random random = new Random();
+        return "#" + Integer.toHexString(random.nextInt(0xFFFFFF));
+    }
+
+
+    @Override
+    public String toString() {
+        return "ChartData{" +
+                "label='" + label + '\'' +
+                ", data=" + Arrays.toString(data) +
+                ", fill=" + fill +
+                ", backgroundColor='" + borderColor + '\'' +
+                '}';
     }
 }
