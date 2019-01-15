@@ -38,6 +38,7 @@ public class RestWebController {
 
     @RequestMapping(value ={"/"})
     public String transactionsDTOList(Model model) {
+
         ChartPeriod chartPeriod = new ChartPeriod();
         String json ="['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']";
         tableDataService.setTableDataList(transactionsDTOService.findAll(),repository);
@@ -63,7 +64,8 @@ public class RestWebController {
 
     @RequestMapping(value = "/transactionEdit", method = RequestMethod.POST)
     public String transactionEdit(Model model, TransactionDTO transactionDTO) {
-        Transaction t = new Transaction(transactionDTO.getName(), transactionDTO.getNumberOfShares(), transactionDTO.getPrice(), transactionDTO.getBuyDate(), transactionDTO.getSellDate());
+        transactionsDTOService.saveTransaction(transactionDTO);
+        Transaction t = new Transaction(transactionDTO.getName(), transactionDTO.getNumberOfShares(), transactionDTO.getPrice(), transactionDTO.getBuyDate(), transactionDTO.getSellDate(), transactionDTO.getId());
         transactionDTO.setLinkVariable(t.getLinkVariable());
         transactionsDTOService.saveTransaction(transactionDTO);
         GetData data = new GetData();
@@ -88,6 +90,7 @@ public class RestWebController {
 
     @RequestMapping(value = "/transactionDelete/{id}", method = RequestMethod.GET)
     public String TransactionDelete(Model model, @PathVariable(name = "id") Long id) {
+        repository.deleteAllByTransactionID(id);
         transactionsDTOService.deleteTransaction(id);
         model.addAttribute("transactionList", transactionsDTOService.findAll());
         model.addAttribute("chartDataList", chartDataService.generateChartDataList(transactionsDTOService.findAll(),repository));
@@ -95,4 +98,6 @@ public class RestWebController {
 
         return "index";
     }
+
+
 }

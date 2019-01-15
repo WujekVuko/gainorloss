@@ -19,7 +19,7 @@ public class TableDataServiceImpl {
         tableDataList.clear();
         for (TransactionDTO transaction : transactionDTOList) {
             for (HistoricValue hv : repository.findByName(transaction.getLinkVariable())) {
-                TableData tableData = new TableData(hv.getName(),transaction.getNumberOfShares(),hv.getPrice(),transaction.getNumberOfShares()*hv.getPrice(),hv.getDate());
+                TableData tableData = new TableData(hv.getName(),transaction.getNumberOfShares(),hv.getPrice(),transaction.getNumberOfShares()*hv.getPrice(),hv.getDate(), hv.getTransactionId());
                 tableDataList.add(tableData);
             }
         }

@@ -1,5 +1,6 @@
 package webapp.sharetransactions.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import webapp.sharetransactions.domain.TransactionDTO;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public interface TransactionsDTOService {
 
     TransactionDTO saveTransaction(TransactionDTO transactionDTO);
 
+    @Transactional
     void deleteTransaction(Long id);
 
 

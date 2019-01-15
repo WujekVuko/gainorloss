@@ -9,8 +9,8 @@ public class TableData extends HistoricValue {
     private float totalValue;
 
 
-    public TableData(String name,float numberOfShares, float price, float totalValue, LocalDate date) {
-        super(name, price, date);
+    public TableData(String name,float numberOfShares, float price, float totalValue, LocalDate date, Long transactionID) {
+        super(name, price, date, transactionID);
         this.numberOfShares = numberOfShares;
         this.totalValue = totalValue;
     }

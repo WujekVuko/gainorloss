@@ -1,6 +1,7 @@
 package webapp.sharetransactions.domain;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Pattern;
 
 
 @Entity
+@Transactional
 public class TransactionDTO {
 
     @Id
