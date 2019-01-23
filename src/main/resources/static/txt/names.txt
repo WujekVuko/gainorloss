@@ -1,3 +1,6 @@
 Asbis;ASBISC;
 Famur;FAMUR;
 Platige;PLATIGE-IMAGE;
+CD Projekt;CD_PROJEKT;
+Bitcoin/zloty;BTCPLN.BMK;
+KGHM;KGHM;
