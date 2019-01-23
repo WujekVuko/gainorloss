@@ -21,11 +21,12 @@ public class ChartPeriod {
 
     public List<LocalDate> generateChartDates(List<TransactionDTO> transactionDTOList){
         List<LocalDate> transactionDates = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         for(TransactionDTO transactionDTO : transactionDTOList){
-            LocalDate transactionBuyDate = LocalDate.parse(transactionDTO.getBuyDate(),format);
+            LocalDate transactionBuyDate = LocalDate.parse(transactionDTO.getBuyDate(),formatter);
             transactionDates.add(transactionBuyDate);
-            LocalDate transactionSellDate = LocalDate.parse(transactionDTO.getSellDate(),format);
+            LocalDate transactionSellDate = LocalDate.parse(transactionDTO.getSellDate(),formatter);
             transactionDates.add(transactionSellDate);
         }
         transactionDates.sort(Comparator.naturalOrder());

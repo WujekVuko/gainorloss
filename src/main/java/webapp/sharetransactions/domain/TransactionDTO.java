@@ -34,6 +34,9 @@ public class TransactionDTO {
     @NotBlank
     @Pattern(regexp="[0-3]?[0-9]\\.[0-1]?[0-9]\\.[1-2][0-9]{3}")
     private String sellDate;
+    @NotNull
+    @Min(0)
+    private float initialValue;
 
 
 
@@ -46,9 +49,10 @@ public class TransactionDTO {
         this.linkVariable = linkVariable;
         this.price = price;
         this.numberOfShares = numberOfShares;
+        this.buyDate = buyDate;
+        this.sellDate = sellDate;
+        this.initialValue = price*numberOfShares;
 
-        this.buyDate = buyDate;// LocalDate.parse(buyDate,formatter);
-        this.sellDate = sellDate; //LocalDate.parse(sellDate,formatter);
     }
 
 
@@ -106,6 +110,14 @@ public class TransactionDTO {
 
     public void setSellDate(String sellDate) {
         this.sellDate = sellDate;
+    }
+
+    public float getInitialValue() {
+        return initialValue;
+    }
+
+    public void setInitialValue(float initialValue) {
+        this.initialValue = initialValue;
     }
 }
 

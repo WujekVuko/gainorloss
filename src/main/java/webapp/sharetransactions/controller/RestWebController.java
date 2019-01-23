@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import webapp.sharetransactions.Service.ChartDataServiceImpl;
 import webapp.sharetransactions.Service.TableDataServiceImpl;
 import webapp.sharetransactions.Service.TransactionsDTOService;
-import webapp.sharetransactions.domain.ChartPeriod;
 import webapp.sharetransactions.domain.TransactionDTO;
 
 import java.util.List;
@@ -38,16 +37,11 @@ public class RestWebController {
 
     @RequestMapping(value ={"/"})
     public String transactionsDTOList(Model model) {
-
-        ChartPeriod chartPeriod = new ChartPeriod();
-        String json ="['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']";
         tableDataService.setTableDataList(transactionsDTOService.findAll(),repository);
         model.addAttribute("transactionList", transactionsDTOService.findAll());
         model.addAttribute("chartDataList", chartDataService.generateChartDataList(transactionsDTOService.findAll(),repository));
         model.addAttribute("tableDataList", tableDataService.getTableDataList());
         model.addAttribute("chartPeriod", chartDataService.generateChartPeriod(transactionsDTOService.findAll(),repository));
-        model.addAttribute("json", json);
-
         return "index";
     }
 
@@ -65,6 +59,7 @@ public class RestWebController {
     @RequestMapping(value = "/transactionEdit", method = RequestMethod.POST)
     public String transactionEdit(Model model, TransactionDTO transactionDTO) {
         transactionsDTOService.saveTransaction(transactionDTO);
+        repository.deleteAllByTransactionID(transactionDTO.getId());
         Transaction t = new Transaction(transactionDTO.getName(), transactionDTO.getNumberOfShares(), transactionDTO.getPrice(), transactionDTO.getBuyDate(), transactionDTO.getSellDate(), transactionDTO.getId());
         transactionDTO.setLinkVariable(t.getLinkVariable());
         transactionsDTOService.saveTransaction(transactionDTO);
@@ -74,17 +69,10 @@ public class RestWebController {
         repository.save(sharesList);
         TableDataServiceImpl tableDataService = new TableDataServiceImpl();
         tableDataService.setTableDataList(transactionsDTOService.findAll(),repository);
-
-
-/*        List<String> list = new ArrayList<>();
-
-        List<ChartData> all = chartDataService.getChartDataList();
-        for (ChartData chartData : all) {
-            Collections.addAll(list, chartData.getDates());
-        }
-        model.addAttribute("chartDataList", list.stream().collect(Collectors.joining(", ")));
- */       model.addAttribute("tableDataList", tableDataService.getTableDataList());
         model.addAttribute("transactionList", transactionsDTOService.findAll());
+        model.addAttribute("chartDataList", chartDataService.generateChartDataList(transactionsDTOService.findAll(),repository));
+        model.addAttribute("tableDataList", tableDataService.getTableDataList());
+        model.addAttribute("chartPeriod", chartDataService.generateChartPeriod(transactionsDTOService.findAll(),repository));
         return "index";
     }
 
@@ -95,7 +83,7 @@ public class RestWebController {
         model.addAttribute("transactionList", transactionsDTOService.findAll());
         model.addAttribute("chartDataList", chartDataService.generateChartDataList(transactionsDTOService.findAll(),repository));
         model.addAttribute("tableDataList", tableDataService.getTableDataList());
-
+        model.addAttribute("chartPeriod", chartDataService.generateChartPeriod(transactionsDTOService.findAll(),repository));
         return "index";
     }
 

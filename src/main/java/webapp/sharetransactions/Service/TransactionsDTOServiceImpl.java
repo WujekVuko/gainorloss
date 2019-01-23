@@ -11,8 +11,12 @@ import java.util.List;
 public class TransactionsDTOServiceImpl implements TransactionsDTOService {
 
 
+    private final TransactionDTORepository transactionDTORepository;
+
     @Autowired
-    private TransactionDTORepository transactionDTORepository;
+    public TransactionsDTOServiceImpl(TransactionDTORepository transactionDTORepository) {
+        this.transactionDTORepository = transactionDTORepository;
+    }
 
     @Override
     public List<TransactionDTO> findAll() {return transactionDTORepository.findAll();}

@@ -1,6 +1,5 @@
 package webapp.sharetransactions.Service;
 
-import basic.dbconnect.Model.HistoricValue;
 import basic.dbconnect.Repository.HistoricValueRepository;
 import webapp.sharetransactions.domain.TableData;
 import webapp.sharetransactions.domain.TransactionDTO;
@@ -17,14 +16,14 @@ public class TableDataServiceImpl {
 
     public void setTableDataList(List<TransactionDTO> transactionDTOList, HistoricValueRepository repository){
         tableDataList.clear();
-        for (TransactionDTO transaction : transactionDTOList) {
-            for (HistoricValue hv : repository.findByName(transaction.getLinkVariable())) {
-                TableData tableData = new TableData(hv.getName(),transaction.getNumberOfShares(),hv.getPrice(),transaction.getNumberOfShares()*hv.getPrice(),hv.getDate(), hv.getTransactionId());
+        for (TransactionDTO transactionDTO : transactionDTOList) {
+                TableData tableData = new TableData(transactionDTO.getName(),transactionDTO.getNumberOfShares(),transactionDTO.getPrice(),repository.findByName(transactionDTO.getLinkVariable()).get(repository.findByName(transactionDTO.getLinkVariable()).size()-1).getPrice(),transactionDTO.getBuyDate(), transactionDTO.getSellDate(), transactionDTO.getId());
                 tableDataList.add(tableData);
-            }
         }
-
     }
+
+
+
     public List<TableData>  getTableDataList(){
         return tableDataList;
     }

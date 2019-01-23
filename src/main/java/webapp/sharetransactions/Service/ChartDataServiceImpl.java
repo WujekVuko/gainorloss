@@ -1,9 +1,9 @@
 package webapp.sharetransactions.Service;
 
 import basic.dbconnect.Model.HistoricValue;
+import basic.dbconnect.Model.Transaction;
 import basic.dbconnect.Repository.HistoricValueRepository;
 import webapp.sharetransactions.domain.ChartData;
-import webapp.sharetransactions.domain.ChartPeriod;
 import webapp.sharetransactions.domain.TransactionDTO;
 
 import java.time.LocalDate;
@@ -21,16 +21,27 @@ public class ChartDataServiceImpl {
     public List<ChartData> generateChartDataList(List<TransactionDTO> transactionDTOList, HistoricValueRepository repository){
         chartDataList.clear();
         List<Float> resultValues = new ArrayList<>();
-        ChartPeriod chartPeriod = new ChartPeriod();
-        for (TransactionDTO transaction : transactionDTOList) {
-            resultValues.clear();
+        List<Transaction> transactionList = new ArrayList<>();
+        List<LocalDate> hvDates = new ArrayList<>();
+        List<HistoricValue> historicValueList = repository.findAll();
+        for(HistoricValue historicValue : historicValueList){
+            hvDates.add(historicValue.getDate());
+        }
+        hvDates.sort(Comparator.naturalOrder());
+        hvDates = hvDates.stream().distinct().collect(Collectors.toList());
+        for(TransactionDTO transactionDTO : transactionDTOList){
+            transactionList.add(new Transaction(transactionDTO.getName(), transactionDTO.getNumberOfShares(),transactionDTO.getPrice(),transactionDTO.getBuyDate(),transactionDTO.getSellDate(),transactionDTO.getId()));
+        }
 
-            for(LocalDate beginning = chartPeriod.generateChartDates(transactionDTOList).get(0);repository.findByName(transaction.getLinkVariable()).get(0).getDate().isAfter(beginning);beginning = beginning.plusDays(1)){
+
+        for (Transaction transaction : transactionList) {
+            resultValues.clear();
+            for(int i = 0;transaction.getBuyDate().isAfter(hvDates.get(i));i++){
                 resultValues.add((float) 0.0);
             }
 
             for (HistoricValue hv : repository.findByName(transaction.getLinkVariable())) {
-                resultValues.add(hv.getPrice()*transaction.getNumberOfShares());
+                resultValues.add(hv.getPrice()*transaction.getNumberOfShares()-transaction.getInitialValue());
             }
             float[] resultValuesArray = new float[resultValues.size()];
             for(int i= resultValues.size()-1; i >= 0; i--){
