@@ -67,7 +67,7 @@
             <th>Sell Date</th>
             <th>Sell Price</th>
             <th>Final Value</th>
-            <th>Profit/Loss</th>
+            <th>Profit/Loss (%)</th>
         </tr>
         </thead>
         <thead>
@@ -80,7 +80,7 @@
             <td th:text="${tableData.sellDate}"></td>
             <td th:text="${tableData.sellPrice}"></td>
             <td th:text="${tableData.finalValue}"></td>
-            <td th:text="${tableData.profitLoss}"></td>
+            <td th:text="${tableData.profitLoss}">/%</td>
 
         </tr>
 

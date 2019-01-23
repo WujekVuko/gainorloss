@@ -14,7 +14,7 @@ public class TableData extends Transaction {
         this.sellPrice = sellPrice;
         this.initialValue = price*numberOfShares;
         this.finalValue = sellPrice*numberOfShares;
-        this.profitLoss = this.initialValue-this.finalValue;
+        this.profitLoss = (this.finalValue-this.initialValue)/this.initialValue*100;
 
     }
 

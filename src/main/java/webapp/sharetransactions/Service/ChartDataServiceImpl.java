@@ -44,8 +44,8 @@ public class ChartDataServiceImpl {
                 resultValues.add(hv.getPrice()*transaction.getNumberOfShares()-transaction.getInitialValue());
             }
             float[] resultValuesArray = new float[resultValues.size()];
-            for(int i= resultValues.size()-1; i >= 0; i--){
-                resultValuesArray[i] = resultValues.get(i);
+            for(int i=0; i <= resultValues.size()-1; i++){
+                resultValuesArray[resultValues.size()-1-i] = resultValues.get(i);
             }
 
 

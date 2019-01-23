@@ -17,7 +17,7 @@ public class TableDataServiceImpl {
     public void setTableDataList(List<TransactionDTO> transactionDTOList, HistoricValueRepository repository){
         tableDataList.clear();
         for (TransactionDTO transactionDTO : transactionDTOList) {
-                TableData tableData = new TableData(transactionDTO.getName(),transactionDTO.getNumberOfShares(),transactionDTO.getPrice(),repository.findByName(transactionDTO.getLinkVariable()).get(repository.findByName(transactionDTO.getLinkVariable()).size()-1).getPrice(),transactionDTO.getBuyDate(), transactionDTO.getSellDate(), transactionDTO.getId());
+                TableData tableData = new TableData(transactionDTO.getName(),transactionDTO.getNumberOfShares(),transactionDTO.getPrice(),repository.findByName(transactionDTO.getLinkVariable()).get(0).getPrice(),transactionDTO.getBuyDate(), transactionDTO.getSellDate(), transactionDTO.getId());
                 tableDataList.add(tableData);
         }
     }
