@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Notes</title>
+    <title>Add/Edit Transaction</title>
     <link rel="stylesheet" type="text/css" media="all" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}" />
 
     <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="js/jquery.min.js"></script>
@@ -21,29 +21,43 @@
     <h1>Transactions</h1>
 
     <form class="form-group" action="/transactionEdit" th:action="@{/transactionEdit}" method="post">
-        <input th:type="hidden" name="id" th:field="${transactionDTO.id}" />
         <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter name (KGHM, Bitcoin/zloty, CD Projekt)" th:field="${transactionDTO.name}" value="Platige" />
+            <tr><td><input th:type="hidden" name="id" th:field="${transactionDTO.id}" /></td></tr>
         </div>
         <div class="form-group">
-            <label for="price">Price</label>
-            <input type="text" class="form-control" id="price" min="0" placeholder="Enter price (XX.XX)" th:field="${transactionDTO.price}" value="30" />
+            <tr>
+                <td><label for="name">Name</label></td>
+                <td><input type="text" class="form-control" id="name" placeholder="Enter name (KGHM, Bitcoin/zloty, CD Projekt)" th:field="${transactionDTO.name}" /></td>
+            </tr>
         </div>
-        <div class="form-group">
-            <label for="numberOfShares">Number of Shares</label>
-            <input type="text" class="form-control" id="numberOfShares" min="0" th:field="${transactionDTO.numberOfShares}" value="100"/>
+        <div class="form-group" th:object="(${transactionDTO})" th:remove="tag">
+            <tr>
+                <td><label for="price">Price</label></td>
+                <td><input type="text" class="form-control" id="price" min="0" placeholder="Enter price (XX.XX)" th:field="${transactionDTO.price}" /></td>
+                <td th:if="${#fields.hasErrors('price')}" th:errors="${transactionDTO.price}">Price Error</td>
+            </tr>
         </div>
-        <div class="form-group">
-            <label for="buyDate">Transaction Date</label>
-            <input type="text" class="form-control" id="buyDate" placeholder="Enter buy date (DD.MM.YYYY)" th:field="${transactionDTO.buyDate}" value="06.09.2018" />
+        <div class="form-group" th:object="(${transactionDTO})" th:remove="tag">
+            <tr>
+                <td><label for="numberOfShares">Number of Shares</label></td>
+                <td><input type="text" class="form-control" id="numberOfShares" min="0" th:field="${transactionDTO.numberOfShares}" /></td>
+                <td th:if="${#fields.hasErrors('numberOfShares')}" th:errors="${transactionDTO.numberOfShares}">Number of Shares Error</td>
+            </tr>
         </div>
-        <div class="form-group">
-            <label for="sellDate">Transaction Date</label>
-            <input type="text" class="form-control" id="sellDate" placeholder="Enter sell date (DD.MM.YYYY)" th:field="${transactionDTO.sellDate}" value="10.10.2018" />
+        <div class="form-group" th:object="(${transactionDTO})" th:remove="tag">
+            <tr>
+                <td><label for="buyDate">Transaction Date</label></td>
+                <td><input type="text" class="form-control" id="buyDate" placeholder="Enter buy date (DD.MM.YYYY)" th:field="${transactionDTO.buyDate}" /></td>
+                <td th:if="${#fields.hasErrors('buyDate')}" th:errors="${transactionDTO.buyDate}">Number of Shares Error</td>
+            </tr>
         </div>
-
-
+        <div class="form-group" th:object="(${transactionDTO})" th:remove="tag">
+            <tr>
+                <td><label for="sellDate">Transaction Date</label></td>
+                <td><input type="text" class="form-control" id="sellDate" placeholder="Enter sell date (DD.MM.YYYY)" th:field="${transactionDTO.sellDate}" /></td>
+                <td th:if="${#fields.hasErrors('sellDate')}" th:errors="${transactionDTO.sellDate}">Number of Shares Error</td>
+            </tr>
+        </div>
 
         <button type="submit" class="btn btn-primary">Save</button>
         <a href="#" th:href="@{/}" class="btn btn-danger" role="button">Cancel</a>

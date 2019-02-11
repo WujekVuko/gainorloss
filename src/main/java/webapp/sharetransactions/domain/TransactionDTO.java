@@ -2,6 +2,7 @@ package webapp.sharetransactions.domain;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,12 +15,13 @@ import javax.validation.constraints.Pattern;
 
 @Entity
 @Transactional
+@Validated
 public class TransactionDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotBlank
+    @NotBlank(message = "not blank")
     private String name;
     private String linkVariable;
     @NotNull
@@ -38,10 +40,6 @@ public class TransactionDTO {
     @Min(0)
     private float initialValue;
 
-
-
-
-
     public TransactionDTO(){}
 
     public TransactionDTO(String name, String linkVariable, float price, int numberOfShares, String buyDate, String sellDate) {
@@ -54,7 +52,6 @@ public class TransactionDTO {
         this.initialValue = price*numberOfShares;
 
     }
-
 
     public Long getId() {
         return id;

@@ -3,7 +3,11 @@ $( document ).ready(function() {
         var availableTags = [
             "Asbis",
             "Famur",
-            "Platige"
+            "Platige",
+            "CD Projekt",
+            "KGHM",
+            "Bitcoin/zloty"
+
         ];
         $( "#name" ).autocomplete({
             source: availableTags

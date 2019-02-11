@@ -39,13 +39,14 @@ public class ChartDataServiceImpl {
             for(int i = 0;transaction.getBuyDate().isAfter(hvDates.get(i));i++){
                 resultValues.add((float) 0.0);
             }
-
-            for (HistoricValue hv : repository.findByName(transaction.getLinkVariable())) {
-                resultValues.add(hv.getPrice()*transaction.getNumberOfShares()-transaction.getInitialValue());
+            List<HistoricValue> historicValues = repository.findByName(transaction.getLinkVariable());
+            for(int i = 0; i <= historicValues.size()-1;i++){
+                resultValues.add(historicValues.get(historicValues.size()-1-i).getPrice()*transaction.getNumberOfShares()-transaction.getInitialValue());
             }
+
             float[] resultValuesArray = new float[resultValues.size()];
             for(int i=0; i <= resultValues.size()-1; i++){
-                resultValuesArray[resultValues.size()-1-i] = resultValues.get(i);
+                resultValuesArray[i] = resultValues.get(i);
             }
 
 

@@ -11,7 +11,7 @@ public interface TransactionsDTOService {
 
     TransactionDTO findOne(Long id);
 
-    TransactionDTO saveTransaction(TransactionDTO transactionDTO);
+    void saveTransaction(TransactionDTO transactionDTO);
 
     @Transactional
     void deleteTransaction(Long id);
